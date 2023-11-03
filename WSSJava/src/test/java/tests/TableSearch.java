@@ -1,6 +1,8 @@
 package tests;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import objects.SearchResults;
 import objects.StoreHome;
+import objects.UserCart;
 import org.junit.jupiter.api.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.openqa.selenium.WebDriver;
@@ -42,18 +44,24 @@ public class TableSearch {
         driver.get("https://www.webstaurantstore.com");
 
 
-        //Verification
+        //Content Verification
         String pageTitle = driver.getTitle();
         assertThat(pageTitle).contains("WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
 
 
-        //Functional
+        //Functionality
         StoreHome.inputSearchStore(driver).sendKeys("stainless work table");
 
         //Functional
         StoreHome.ctaSearchStore(driver).click();
+        SearchResults.checkResults(driver);
 
-        System.out.println("We meet again, Java!");
+        //Functional
+        SearchResults.selectItem(driver, 1);
+        SearchResults.viewCart(driver);
+
+        //Functionality
+        UserCart.emptyCart(driver);
 
     }
 
